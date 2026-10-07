@@ -1,0 +1,1662 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>İşletme Hesaplama</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f5f7fb;
+    color: #111827;
+}
+
+/* HEADER */
+
+header {
+    background: linear-gradient(135deg, #111827, #1f2937);
+    color: white;
+    padding: 22px 30px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+}
+
+.header-content {
+    max-width: 1400px;
+    margin: auto;
+}
+
+header h1 {
+    font-size: 26px;
+}
+
+header p {
+    margin-top: 5px;
+    color: #cbd5e1;
+}
+
+/* MAIN */
+
+.container {
+    max-width: 1400px;
+    margin: auto;
+    padding: 25px;
+}
+
+/* TOP */
+
+.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.top h2 {
+    font-size: 26px;
+}
+
+.top p {
+    color: #6b7280;
+    margin-top: 5px;
+}
+
+/* BUTTON */
+
+button {
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    padding: 11px 15px;
+    font-size: 15px;
+    transition: 0.15s;
+}
+
+button:hover {
+    transform: translateY(-1px);
+}
+
+.add-btn {
+    background: #2563eb;
+    color: white;
+    font-weight: bold;
+    padding: 13px 18px;
+}
+
+.add-btn:hover {
+    background: #1d4ed8;
+}
+
+/* SEARCH */
+
+.search-box {
+    margin-bottom: 18px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 15px 18px;
+    border: 1px solid #dbe1ea;
+    border-radius: 12px;
+    font-size: 16px;
+    outline: none;
+    background: white;
+}
+
+.search-box input:focus {
+    border-color: #2563eb;
+}
+
+/* CATEGORIES */
+
+.categories {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+}
+
+.category {
+    background: white;
+    border: 1px solid #dbe1ea;
+    color: #374151;
+}
+
+.category.active {
+    background: #111827;
+    color: white;
+}
+
+/* LAYOUT */
+
+.main-layout {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 25px;
+    align-items: start;
+}
+
+/* PRODUCTS */
+
+.products {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 16px;
+}
+
+.product {
+    position: relative;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 18px;
+    padding: 20px;
+    min-height: 150px;
+    cursor: pointer;
+    transition: 0.2s;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+}
+
+.product:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    border-color: #bfdbfe;
+}
+
+.product h3 {
+    font-size: 18px;
+    margin-bottom: 12px;
+    padding-right: 30px;
+}
+
+.price {
+    font-size: 22px;
+    font-weight: bold;
+    color: #16a34a;
+}
+
+.unit {
+    color: #6b7280;
+    margin-top: 7px;
+    font-size: 14px;
+}
+
+.product-category {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 5px 9px;
+    border-radius: 7px;
+    background: #eff6ff;
+    color: #2563eb;
+    font-size: 12px;
+}
+
+/* PRODUCT MENU */
+
+.product-menu {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+}
+
+.menu-btn {
+    background: #f3f4f6;
+    padding: 6px 9px;
+    font-size: 16px;
+}
+
+.menu-btn:hover {
+    background: #e5e7eb;
+}
+
+/* CART */
+
+.cart {
+    background: white;
+    border-radius: 20px;
+    padding: 22px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+    position: sticky;
+    top: 20px;
+}
+
+.cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.cart-header h2 {
+    font-size: 21px;
+}
+
+.clear-cart {
+    background: #fee2e2;
+    color: #dc2626;
+    padding: 7px 10px;
+    font-size: 13px;
+}
+
+/* CART ITEM */
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 15px 0;
+    border-bottom: 1px solid #edf0f4;
+}
+
+.cart-name {
+    font-weight: bold;
+}
+
+.cart-price {
+    color: #6b7280;
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+.item-total {
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+/* CONTROLS */
+
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.controls button {
+    background: #eef0f3;
+    padding: 7px 10px;
+    font-weight: bold;
+}
+
+.controls button:hover {
+    background: #dfe3e8;
+}
+
+.remove {
+    background: #fee2e2 !important;
+    color: #dc2626;
+}
+
+/* TOTAL */
+
+.total-box {
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 2px dashed #e5e7eb;
+}
+
+.total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.total span:first-child {
+    color: #6b7280;
+}
+
+.total span:last-child {
+    font-size: 28px;
+    font-weight: bold;
+    color: #111827;
+}
+
+.complete {
+    width: 100%;
+    margin-top: 18px;
+    background: #16a34a;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    padding: 15px;
+}
+
+.complete:hover {
+    background: #15803d;
+}
+
+/* EMPTY */
+
+.empty {
+    color: #9ca3af;
+    text-align: center;
+    padding: 35px 15px;
+}
+
+/* MODAL */
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15,23,42,0.6);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 100;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-box {
+    background: white;
+    width: 100%;
+    max-width: 480px;
+    padding: 28px;
+    border-radius: 22px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+
+.modal-box h2 {
+    margin-bottom: 20px;
+}
+
+.modal-box label {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.modal-box input,
+.modal-box select {
+    width: 100%;
+    padding: 13px;
+    margin-bottom: 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    font-size: 16px;
+    outline: none;
+}
+
+.modal-box input:focus,
+.modal-box select:focus {
+    border-color: #2563eb;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.save {
+    background: #2563eb;
+    color: white;
+    flex: 1;
+}
+
+.cancel {
+    background: #e5e7eb;
+    flex: 1;
+}
+
+/* DELETE CONFIRM */
+
+.delete-btn {
+    background: #dc2626;
+    color: white;
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* MOBILE */
+
+@media (max-width: 900px) {
+
+    .main-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .cart {
+        position: static;
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .container {
+        padding: 15px;
+    }
+
+    .top {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+
+    .products {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .product {
+        padding: 15px;
+    }
+
+    .product h3 {
+        font-size: 16px;
+    }
+
+    .price {
+        font-size: 18px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="header-content">
+
+        <h1>🏪 İşletme Hesaplama</h1>
+
+        <p>
+            Ürünlerini seç, miktarı belirle, toplamı otomatik hesapla.
+        </p>
+
+    </div>
+
+</header>
+
+
+<div class="container">
+
+    <div class="top">
+
+        <div>
+
+            <h2>Ürünler</h2>
+
+            <p>
+                Bir ürüne dokunarak sepete ekleyebilirsin.
+            </p>
+
+        </div>
+
+        <button
+            class="add-btn"
+            onclick="openModal()">
+
+            ＋ Yeni Ürün
+
+        </button>
+
+    </div>
+
+
+    <!-- ARAMA -->
+
+    <div class="search-box">
+
+        <input
+            id="searchInput"
+            type="text"
+            placeholder="🔎 Ürün ara..."
+            oninput="renderProducts()"
+        >
+
+    </div>
+
+
+    <!-- KATEGORİLER -->
+
+    <div class="categories">
+
+        <button
+            class="category active"
+            onclick="filterProducts('all', this)">
+            Tümü
+        </button>
+
+        <button
+            class="category"
+            onclick="filterProducts('hammadde', this)">
+            🥖 Hammadde
+        </button>
+
+        <button
+            class="category"
+            onclick="filterProducts('malzeme', this)">
+            📦 Malzeme
+        </button>
+
+        <button
+            class="category"
+            onclick="filterProducts('diger', this)">
+            📋 Diğer
+        </button>
+
+    </div>
+
+
+    <div class="main-layout">
+
+
+        <!-- ÜRÜNLER -->
+
+        <div id="products" class="products"></div>
+
+
+        <!-- SEPET -->
+
+        <div class="cart">
+
+            <div class="cart-header">
+
+                <h2>🛒 Sepet</h2>
+
+                <button
+                    class="clear-cart"
+                    onclick="clearCart()">
+                    Temizle
+                </button>
+
+            </div>
+
+
+            <div id="cartItems">
+
+                <div class="empty">
+                    Sepet boş.
+                </div>
+
+            </div>
+
+
+            <div class="total-box">
+
+                <div class="total">
+
+                    <span>TOPLAM</span>
+
+                    <span id="total">
+                        0,00 TL
+                    </span>
+
+                </div>
+
+
+                <button
+                    class="complete"
+                    onclick="completeOrder()">
+
+                    ✓ Alışverişi Tamamla
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ÜRÜN MODAL -->
+
+<div id="modal" class="modal">
+
+    <div class="modal-box">
+
+        <h2 id="modalTitle">
+            Yeni Ürün Ekle
+        </h2>
+
+
+        <label>Ürün adı</label>
+
+        <input
+            id="productName"
+            type="text"
+            placeholder="Örn: Un"
+        >
+
+
+        <label>Fiyat (TL)</label>
+
+        <input
+            id="productPrice"
+            type="number"
+            placeholder="Örn: 850"
+            min="0"
+            step="0.01"
+        >
+
+
+        <label>Birim</label>
+
+        <input
+            id="productUnit"
+            type="text"
+            placeholder="Örn: 25 kg"
+        >
+
+
+        <label>Kategori</label>
+
+        <select id="productCategory">
+
+            <option value="hammadde">
+                Hammadde
+            </option>
+
+            <option value="malzeme">
+                Malzeme
+            </option>
+
+            <option value="diger">
+                Diğer
+            </option>
+
+        </select>
+
+
+        <div class="modal-buttons">
+
+            <button
+                class="cancel"
+                onclick="closeModal()">
+
+                İptal
+
+            </button>
+
+            <button
+                class="save"
+                onclick="saveProduct()">
+
+                Kaydet
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+
+/* =========================
+   ÜRÜNLER
+========================= */
+
+
+const defaultProducts = [
+
+    {
+        id: 1,
+        name: "Un",
+        price: 850,
+        unit: "25 kg",
+        category: "hammadde"
+    },
+
+    {
+        id: 2,
+        name: "Şeker",
+        price: 720,
+        unit: "25 kg",
+        category: "hammadde"
+    },
+
+    {
+        id: 3,
+        name: "Maya",
+        price: 180,
+        unit: "1 kg",
+        category: "hammadde"
+    },
+
+    {
+        id: 4,
+        name: "Tereyağı",
+        price: 1250,
+        unit: "5 kg",
+        category: "hammadde"
+    },
+
+    {
+        id: 5,
+        name: "Yumurta",
+        price: 600,
+        unit: "30 adet",
+        category: "hammadde"
+    },
+
+    {
+        id: 6,
+        name: "Karton Kutu",
+        price: 250,
+        unit: "100 adet",
+        category: "malzeme"
+    }
+
+];
+
+
+let products =
+    JSON.parse(localStorage.getItem("products"))
+    || defaultProducts;
+
+
+let cart = [];
+
+let currentCategory = "all";
+
+let editingProductId = null;
+
+
+/* =========================
+   KAYDET
+========================= */
+
+
+function saveProducts() {
+
+    localStorage.setItem(
+        "products",
+        JSON.stringify(products)
+    );
+
+}
+
+
+/* =========================
+   PARA
+========================= */
+
+
+function formatMoney(number) {
+
+    return number.toLocaleString("tr-TR", {
+
+        minimumFractionDigits: 2,
+
+        maximumFractionDigits: 2
+
+    });
+
+}
+
+
+/* =========================
+   ÜRÜNLERİ GÖSTER
+========================= */
+
+
+function renderProducts() {
+
+    const container =
+        document.getElementById("products");
+
+
+    const search =
+        document
+        .getElementById("searchInput")
+        .value
+        .toLowerCase()
+        .trim();
+
+
+    container.innerHTML = "";
+
+
+    let filteredProducts =
+        products.filter(product => {
+
+
+            const categoryMatch =
+                currentCategory === "all"
+                ||
+                product.category === currentCategory;
+
+
+            const searchMatch =
+                product.name
+                .toLowerCase()
+                .includes(search);
+
+
+            return categoryMatch && searchMatch;
+
+        });
+
+
+    if (filteredProducts.length === 0) {
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                🔎 Ürün bulunamadı.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    filteredProducts.forEach(product => {
+
+
+        const div =
+            document.createElement("div");
+
+
+        div.className = "product";
+
+
+        div.onclick = function(e) {
+
+            if (
+                e.target.closest(".product-menu")
+            ) {
+                return;
+            }
+
+            addToCart(product.id);
+
+        };
+
+
+        div.innerHTML = `
+
+            <div class="product-menu">
+
+                <button
+                    class="menu-btn"
+                    onclick="openEditMenu(${product.id})">
+
+                    ⋮
+
+                </button>
+
+            </div>
+
+
+            <h3>
+                ${product.name}
+            </h3>
+
+
+            <div class="price">
+
+                ${formatMoney(product.price)}
+                TL
+
+            </div>
+
+
+            <div class="unit">
+
+                ${product.unit}
+
+            </div>
+
+
+            <div class="product-category">
+
+                ${categoryName(product.category)}
+
+            </div>
+
+        `;
+
+
+        container.appendChild(div);
+
+    });
+
+}
+
+
+/* =========================
+   KATEGORİ ADI
+========================= */
+
+
+function categoryName(category) {
+
+    if (category === "hammadde")
+        return "Hammadde";
+
+    if (category === "malzeme")
+        return "Malzeme";
+
+    return "Diğer";
+
+}
+
+
+/* =========================
+   SEPETE EKLE
+========================= */
+
+
+function addToCart(productId) {
+
+    const product =
+        products.find(
+            p => p.id === productId
+        );
+
+
+    if (!product) return;
+
+
+    const existing =
+        cart.find(
+            item => item.productId === productId
+        );
+
+
+    if (existing) {
+
+        existing.quantity++;
+
+    }
+
+    else {
+
+        cart.push({
+
+            productId: productId,
+
+            quantity: 1
+
+        });
+
+    }
+
+
+    renderCart();
+
+}
+
+
+/* =========================
+   SEPET
+========================= */
+
+
+function renderCart() {
+
+    const container =
+        document.getElementById("cartItems");
+
+
+    container.innerHTML = "";
+
+
+    if (cart.length === 0) {
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                Sepet boş.
+
+            </div>
+
+        `;
+
+        updateTotal();
+
+        return;
+
+    }
+
+
+    cart.forEach(item => {
+
+
+        const product =
+            products.find(
+                p => p.id === item.productId
+            );
+
+
+        if (!product) return;
+
+
+        const itemTotal =
+            product.price * item.quantity;
+
+
+        const div =
+            document.createElement("div");
+
+
+        div.className = "cart-item";
+
+
+        div.innerHTML = `
+
+            <div>
+
+                <div class="cart-name">
+
+                    ${product.name}
+
+                </div>
+
+
+                <div class="cart-price">
+
+                    ${formatMoney(product.price)}
+                    TL × ${item.quantity}
+
+                </div>
+
+
+                <div class="item-total">
+
+                    ${formatMoney(itemTotal)}
+                    TL
+
+                </div>
+
+            </div>
+
+
+            <div class="controls">
+
+                <button
+                    onclick="changeQuantity(${product.id}, -1)">
+                    −
+                </button>
+
+
+                <strong>
+
+                    ${item.quantity}
+
+                </strong>
+
+
+                <button
+                    onclick="changeQuantity(${product.id}, 1)">
+                    +
+                </button>
+
+
+                <button
+                    class="remove"
+                    onclick="removeFromCart(${product.id})">
+
+                    🗑
+
+                </button>
+
+            </div>
+
+        `;
+
+
+        container.appendChild(div);
+
+    });
+
+
+    updateTotal();
+
+}
+
+
+/* =========================
+   ADET DEĞİŞTİR
+========================= */
+
+
+function changeQuantity(productId, change) {
+
+    const item =
+        cart.find(
+            item => item.productId === productId
+        );
+
+
+    if (!item) return;
+
+
+    item.quantity += change;
+
+
+    if (item.quantity <= 0) {
+
+        cart =
+            cart.filter(
+                item =>
+                item.productId !== productId
+            );
+
+    }
+
+
+    renderCart();
+
+}
+
+
+/* =========================
+   ÜRÜNÜ SEPETTEN SİL
+========================= */
+
+
+function removeFromCart(productId) {
+
+    cart =
+        cart.filter(
+            item =>
+            item.productId !== productId
+        );
+
+
+    renderCart();
+
+}
+
+
+/* =========================
+   SEPET TEMİZLE
+========================= */
+
+
+function clearCart() {
+
+    if (cart.length === 0) return;
+
+
+    if (
+        confirm(
+            "Sepetteki tüm ürünler silinsin mi?"
+        )
+    ) {
+
+        cart = [];
+
+        renderCart();
+
+    }
+
+}
+
+
+/* =========================
+   TOPLAM
+========================= */
+
+
+function updateTotal() {
+
+    let total = 0;
+
+
+    cart.forEach(item => {
+
+        const product =
+            products.find(
+                p => p.id === item.productId
+            );
+
+
+        if (product) {
+
+            total +=
+                product.price *
+                item.quantity;
+
+        }
+
+    });
+
+
+    document
+        .getElementById("total")
+        .textContent =
+        formatMoney(total) + " TL";
+
+}
+
+
+/* =========================
+   KATEGORİ
+========================= */
+
+
+function filterProducts(category, button) {
+
+    currentCategory = category;
+
+
+    document
+        .querySelectorAll(".category")
+        .forEach(btn =>
+            btn.classList.remove("active")
+        );
+
+
+    button.classList.add("active");
+
+
+    renderProducts();
+
+}
+
+
+/* =========================
+   MODAL
+========================= */
+
+
+function openModal() {
+
+    editingProductId = null;
+
+
+    document
+        .getElementById("modalTitle")
+        .textContent =
+        "Yeni Ürün Ekle";
+
+
+    document
+        .getElementById("productName")
+        .value = "";
+
+
+    document
+        .getElementById("productPrice")
+        .value = "";
+
+
+    document
+        .getElementById("productUnit")
+        .value = "";
+
+
+    document
+        .getElementById("productCategory")
+        .value =
+        "hammadde";
+
+
+    document
+        .getElementById("modal")
+        .classList.add("active");
+
+}
+
+
+/* =========================
+   MODAL KAPAT
+========================= */
+
+
+function closeModal() {
+
+    document
+        .getElementById("modal")
+        .classList.remove("active");
+
+}
+
+
+/* =========================
+   ÜRÜN KAYDET / DÜZENLE
+========================= */
+
+
+function saveProduct() {
+
+    const name =
+        document
+        .getElementById("productName")
+        .value
+        .trim();
+
+
+    const price =
+        Number(
+            document
+            .getElementById("productPrice")
+            .value
+        );
+
+
+    const unit =
+        document
+        .getElementById("productUnit")
+        .value
+        .trim();
+
+
+    const category =
+        document
+        .getElementById("productCategory")
+        .value;
+
+
+    if (!name) {
+
+        alert("Ürün adını gir.");
+
+        return;
+
+    }
+
+
+    if (isNaN(price) || price < 0) {
+
+        alert("Geçerli bir fiyat gir.");
+
+        return;
+
+    }
+
+
+    /* DÜZENLE */
+
+    if (editingProductId !== null) {
+
+
+        const product =
+            products.find(
+                p =>
+                p.id === editingProductId
+            );
+
+
+        if (product) {
+
+            product.name = name;
+
+            product.price = price;
+
+            product.unit =
+                unit || "adet";
+
+            product.category =
+                category;
+
+        }
+
+    }
+
+
+    /* YENİ ÜRÜN */
+
+    else {
+
+        products.push({
+
+            id: Date.now(),
+
+            name: name,
+
+            price: price,
+
+            unit: unit || "adet",
+
+            category: category
+
+        });
+
+    }
+
+
+    saveProducts();
+
+    closeModal();
+
+    renderProducts();
+
+}
+
+
+/* =========================
+   DÜZENLE MENÜSÜ
+========================= */
+
+
+function openEditMenu(productId) {
+
+    const product =
+        products.find(
+            p => p.id === productId
+        );
+
+
+    if (!product) return;
+
+
+    const choice =
+        confirm(
+            product.name +
+            "\n\n" +
+            "Tamam → Düzenle\n" +
+            "İptal → Silme seçenekleri"
+        );
+
+
+    if (choice) {
+
+        editProduct(productId);
+
+    }
+
+    else {
+
+        deleteProduct(productId);
+
+    }
+
+}
+
+
+/* =========================
+   DÜZENLE
+========================= */
+
+
+function editProduct(productId) {
+
+    const product =
+        products.find(
+            p => p.id === productId
+        );
+
+
+    if (!product) return;
+
+
+    editingProductId = productId;
+
+
+    document
+        .getElementById("modalTitle")
+        .textContent =
+        "Ürünü Düzenle";
+
+
+    document
+        .getElementById("productName")
+        .value =
+        product.name;
+
+
+    document
+        .getElementById("productPrice")
+        .value =
+        product.price;
+
+
+    document
+        .getElementById("productUnit")
+        .value =
+        product.unit;
+
+
+    document
+        .getElementById("productCategory")
+        .value =
+        product.category;
+
+
+    document
+        .getElementById("modal")
+        .classList.add("active");
+
+}
+
+
+/* =========================
+   SİL
+========================= */
+
+
+function deleteProduct(productId) {
+
+    const product =
+        products.find(
+            p => p.id === productId
+        );
+
+
+    if (!product) return;
+
+
+    if (
+        !confirm(
+            `"${product.name}" ürününü silmek istediğine emin misin?`
+        )
+    ) {
+        return;
+    }
+
+
+    products =
+        products.filter(
+            p => p.id !== productId
+        );
+
+
+    cart =
+        cart.filter(
+            item =>
+            item.productId !== productId
+        );
+
+
+    saveProducts();
+
+    renderProducts();
+
+    renderCart();
+
+}
+
+
+/* =========================
+   ALIŞVERİŞ TAMAMLA
+========================= */
+
+
+function completeOrder() {
+
+    if (cart.length === 0) {
+
+        alert("Sepet boş.");
+
+        return;
+
+    }
+
+
+    let total = 0;
+
+
+    cart.forEach(item => {
+
+        const product =
+            products.find(
+                p =>
+                p.id === item.productId
+            );
+
+
+        if (product) {
+
+            total +=
+                product.price *
+                item.quantity;
+
+        }
+
+    });
+
+
+    alert(
+
+        "✅ Alışveriş tamamlandı!\n\n" +
+
+        "Toplam: " +
+
+        formatMoney(total) +
+
+        " TL"
+
+    );
+
+
+    cart = [];
+
+    renderCart();
+
+}
+
+
+/* =========================
+   BAŞLANGIÇ
+========================= */
+
+
+renderProducts();
+
+renderCart();
+
+</script>
+
+</body>
+</html>
